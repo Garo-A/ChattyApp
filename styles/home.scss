@@ -27,8 +27,13 @@ body {
   padding: 0 9px;
 }
 
+form,
 .chatbar-message {
   flex: 8;
+}
+
+form > .chatbar-message {
+  width: 97.5%;
 }
 
 .chatbar-username {
