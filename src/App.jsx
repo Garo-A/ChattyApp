@@ -28,11 +28,16 @@ class App extends Component {
         username: user,
         content: `${this.state.currentUser.name} changed their name to: ${user}`
       }
+      let userObj = {
+        name: user}
+      this.setState({currentUser: userObj});
+
     } else {
     newMessage = {
       type: "PostMessage",
-      username: user,
-      content: input
+      username: this.state.currentUser.name,
+      content: input,
+      color: this.state.color
     }
   }
 
@@ -49,29 +54,20 @@ class App extends Component {
     this.state =
     { currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [],
-      count: 0
+      count: 0,
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+
   //When Component mounts, does something
   componentDidMount() {
   console.log("componentDidMount <App />");
-  setTimeout(() => {
-    console.log("Simulating incoming message");
-
-    // Add a new message to the list of messages in the data store
-    const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-    const messages = this.state.messages.concat(newMessage)
-
-    // Update the state of the app component.
-    // Calling setState will trigger a call to render() in App and all child components.
-    this.setState({messages: messages})
-  }, 3000);
 
   //Link to WebSocket
   this.socket = new WebSocket("ws://localhost:3001");
+
   //Confirmation
   this.socket.onopen = function(){
     console.log("Connected to WebSocket")
@@ -85,10 +81,6 @@ class App extends Component {
     switch (newMessage.type) {
 
       case "IncomingNotification":
-        let userObj = {
-          name: newMessage.username,
-        };
-        this.setState({currentUser: userObj});
 
         let notif = this.state.messages.concat(newMessage);
         this.setState({messages: notif});
@@ -101,6 +93,7 @@ class App extends Component {
 
       case "UserCount":
         this.setState({count: newMessage.count})
+        this.setState({color: newMessage.color})
     }
   }
 }

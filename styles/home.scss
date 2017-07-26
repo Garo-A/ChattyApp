@@ -98,3 +98,9 @@ form > .chatbar-username{
   margin: 15px;
   font-weight: bold;
 }
+
+.message > .image {
+  max-width: 60%;
+  max-height: 500px;
+  margin: 0 auto;
+}

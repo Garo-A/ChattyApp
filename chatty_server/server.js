@@ -7,6 +7,15 @@ const uuidv4 = require('uuid/v4');
 // Set the port to 3001
 const PORT = 3001;
 
+//Set Colour Array globally:
+const colors = ["red", "blue", "green", "purple"];
+
+//Function that generates a random number from 0 to 3
+function colorPicker(arr) {
+  let index = Math.round(Math.random()*3)
+  return (arr[index]);
+}
+
 // Create a new express server
 const server = express()
    // Make the express server serve static assets (html, javascript, css) from the /public folder
@@ -28,12 +37,13 @@ wss.broadcast = function (data) {
 wss.on('connection', (ws) => {
   console.log('Client connected');
 
-  let userCount = {
+  let user = {
     type: "UserCount",
-    count: wss.clients.size
+    count: wss.clients.size,
+    color: colorPicker(colors)
   }
 
-  wss.broadcast(JSON.stringify(userCount));
+  wss.broadcast(JSON.stringify(user));
 
   ws.on('message', function (message){
     //Receiving string object from the client, parsing into object and taking out w;hat is needed.
