@@ -12,31 +12,32 @@ class App extends Component {
     event.preventDefault()
     let input = document.getElementById("text").value
     let user = document.getElementById("user").value;
+    let type = ""
 
     if (user === "") {
       user = "Anonymous";
     }
 
-    let userObj = {
-      name: user
-    }
+    let newMessage = {}
+    //This is basically what's going to assign the type of the Message. If at any point it finds that a new username is sent, it's going to
+    //Send the new notif accordignly.
 
-    let newUser = new Promise((resolve, reject) => {
-
-      resolve(this.setState({currentUser: userObj}));
-    })
-
-    newUser.then(() => {
-      let newMessage = {
-        username: this.state.currentUser.name,
-        content: input
+    if (user !== this.state.currentUser.name) {
+      newMessage = {
+        type: "PostNotification",
+        username: user,
+        content: `${this.state.currentUser.name} changed their name to: ${user}`
       }
-      let messageString = JSON.stringify(newMessage);
-      this.socket.send(messageString);
-    });
+    } else {
+    newMessage = {
+      type: "PostMessage",
+      username: user,
+      content: input
+    }
+  }
 
-    //Taking message object, transforming into string and sending to server.
-
+    let messageString = JSON.stringify(newMessage);
+    this.socket.send(messageString)
 
     document.getElementById('text').value = "";
   }
@@ -46,8 +47,9 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state =
-    { currentUser: {}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: []
+    { currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
+      messages: [],
+      count: 0
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -76,12 +78,31 @@ class App extends Component {
   }
 
   this.socket.onmessage = (event) => {
+
     console.log(event.data);
     const newMessage = JSON.parse(event.data);
-    const messages = this.state.messages.concat(newMessage);
-    this.setState({messages: messages});
-  }
 
+    switch (newMessage.type) {
+
+      case "IncomingNotification":
+        let userObj = {
+          name: newMessage.username,
+        };
+        this.setState({currentUser: userObj});
+
+        let notif = this.state.messages.concat(newMessage);
+        this.setState({messages: notif});
+        break;
+
+      case "IncomingMessage":
+        let messages = this.state.messages.concat(newMessage);
+        this.setState({messages: messages});
+        break;
+
+      case "UserCount":
+        this.setState({count: newMessage.count})
+    }
+  }
 }
 
   render() {
@@ -89,6 +110,7 @@ class App extends Component {
     <div>
       <nav className="navbar">
         <a href="/" className="navbar-brand">Chatty</a>
+        <span className="userCount"> Users Online: {this.state.count} </span>
       </nav>
       <MessageList messages={this.state.messages}/>
       <ChatBar name={this.state.currentUser.name} handleSubmit={this.handleSubmit}/>
