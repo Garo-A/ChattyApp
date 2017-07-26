@@ -40,6 +40,10 @@ form > .chatbar-message {
   flex: 2;
 }
 
+form > .chatbar-username{
+  width: 12%;
+}
+
 .message {
   display: flex;
   padding: 5px;
