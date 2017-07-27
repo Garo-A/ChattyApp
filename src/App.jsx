@@ -55,6 +55,7 @@ class App extends Component {
     { currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [],
       count: 0,
+      color: ""
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -93,7 +94,11 @@ class App extends Component {
 
       case "UserCount":
         this.setState({count: newMessage.count})
+        break;
+
+      case "UserColor":
         this.setState({color: newMessage.color})
+        break;
     }
   }
 }

@@ -40,10 +40,16 @@ wss.on('connection', (ws) => {
   let user = {
     type: "UserCount",
     count: wss.clients.size,
+  }
+
+  let color = {
+    type: "UserColor",
     color: colorPicker(colors)
   }
 
   wss.broadcast(JSON.stringify(user));
+
+  ws.send(JSON.stringify(color));
 
   ws.on('message', function (message){
     //Receiving string object from the client, parsing into object and taking out w;hat is needed.
