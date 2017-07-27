@@ -11,11 +11,21 @@ class App extends Component {
   handleSubmit(event) {
     event.preventDefault()
     let input = document.getElementById("text").value
-    let user = document.getElementById("user").value;
+    let user = document.getElementById("user").value
     let type = ""
+    const giphyKey = "1eeecf12c22b436d818f29a19cb02d8d"
+    const queryStart = 7
 
     if (user === "") {
       user = "Anonymous";
+    }
+
+    if (input.includes("/giphy")) {
+      let query = input.substring(queryStart);
+      let URL = `api.giphy.com/v1/gifs/random?api_key=${giphyKey}&tag=${query}`
+      //Now, time to get what I need from the API. Need to send reauest here. Once I have the request, I'll pull out the gif URL and set that as the content
+      //It's in: data.image_url.
+      
     }
 
     let newMessage = {}

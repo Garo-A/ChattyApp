@@ -51,9 +51,12 @@ wss.on('connection', (ws) => {
 
   ws.send(JSON.stringify(color));
 
+  //Incoming Message dealt with here.
   ws.on('message', function (message){
     //Receiving string object from the client, parsing into object and taking out w;hat is needed.
     let messageObj = JSON.parse(message);
+
+    //Check GIPHY content here!
     messageObj.id = uuidv4();
     console.log(`ID: ${messageObj.id}, USERNAME: ${messageObj.username}, CONTENT: ${messageObj .content}, TYPE: ${messageObj.type}`)
 
