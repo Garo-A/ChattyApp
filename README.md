@@ -1,45 +1,32 @@
-React Boilerplate
-=====================
+Lighthouse Labs Chatty-App!
+===========================
 
-A minimal and light dev environment for ReactJS.
+## Description
 
-### Usage
+ChattyApp is an application who's primary use is to chat with your friends! It's a single page application that is rendered using ReactJS and uses WebSockets to broadcast information to all the clients at once.
 
-Clone the boilerplate and create your own git repo.
+## Getting Started
 
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
+Clone the repo onto your local disk (`git clone`) and then install all dependencies using `npm install`. To run the application, use `npm start`. **NOTE** You will need two terminal to correctly start the application;
+1. `npm start` in the main application folder.
+2. `npm start` in "chatty_server" folder.
 
-Install the dependencies and start the server.
+App will run on: `localhost:3000`.
 
-```
-npm install
-npm start
-open http://localhost:3000
-```
+## How to use
 
-### Static Files
+Input a username in the username field. This step is optional, should you decide not to use one, it will default to Anonymous. You can then start typing inside the message and press `enter` to send.
 
-You can store static files like images, fonts, etc in the `build` folder.
+## Extras!
 
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
+*User Colors*
 
-### Linting
+Every time a new instance of the app is opened, a random color from 4 possible ones ones will be chosen as the user color.
 
-This boilerplate project includes React ESLint configuration.
+*Images*
 
-```
-npm run lint
-```
+The app is designed to render images and gifs as well. Should the user input a URL that ends with .png, .gif, or .jpg, the image will render on the page.
 
-### Dependencies
+*Giphy!*
 
-* React
-* Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+Giphy API is built into the app. In order the use type: `/giphy` and a search query (cat is a popular one) to generate a random gif from Giphy!
