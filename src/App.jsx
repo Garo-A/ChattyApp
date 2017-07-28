@@ -1,10 +1,11 @@
 //ReactDOM is only rendering this component using the #react-root as it's targer. This contains a div elements
 //containing all of the smaller components required for a page to run. This also can modify the content
 //of these components.
-
 import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from "./MessageList.jsx";
+
+const fetch = require("node-fetch")
 
 class App extends Component {
 
@@ -16,16 +17,33 @@ class App extends Component {
     const giphyKey = "1eeecf12c22b436d818f29a19cb02d8d"
     const queryStart = 7
 
+    const userColor = this.state.color
+    const webSocket = this.socket
+
     if (user === "") {
       user = "Anonymous";
     }
 
     if (input.includes("/giphy")) {
       let query = input.substring(queryStart);
-      let URL = `api.giphy.com/v1/gifs/random?api_key=${giphyKey}&tag=${query}`
+      let URL = `https://api.giphy.com/v1/gifs/random?api_key=${giphyKey}&tag=${query}`
+      console.log(URL);
       //Now, time to get what I need from the API. Need to send reauest here. Once I have the request, I'll pull out the gif URL and set that as the content
       //It's in: data.image_url.
-      
+      fetch(URL)
+      .then(function(resp){
+        return resp.json()
+      })
+      .then(function(json){
+        input = json.data.image_url;
+        let newMessage = {
+          type: "PostMessage",
+          username: user,
+          content: input,
+          color: userColor
+        }
+        webSocket.send(JSON.stringify(newMessage));
+      })
     }
 
     let newMessage = {}
