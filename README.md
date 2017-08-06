@@ -15,7 +15,7 @@ App will run on: `localhost:3000`.
 
 ## How to use
 
-Input a username in the username field. This step is optional, should you decide not to use one, it will default to Anonymous. You can then start typing inside the message and press `enter` to send.
+Input a username in the username field. This step is optional, should you decide not to use one, it will default to Anonymous. You can then start typing inside the message box and press `enter` to send.
 
 ## Extras!
 
